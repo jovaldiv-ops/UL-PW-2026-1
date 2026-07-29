@@ -5,15 +5,23 @@
   "type": "module",
   "scripts": {
     "dev-old": "vite",
-    "dev": "concurrently --names \"REACT\" --prefix-colors \"cyan\" \"npm run watch\"",
+    "dev": "concurrently --names \"REACT,EXPRESS\" --prefix-colors \"cyan,green\" \"npm run watch\" \"npm run dev-server\"",
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "watch": "vite build --watch"
+    "watch": "vite build --watch",
+    "dev-server": "nodemon --watch server.js server.js"
   },
   "dependencies": {
     "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "react-dom": "^18.3.1",
+    "express": "^5.2.1",
+    "ejs": "^3.1.9",
+    "ejs-mate": "^4.0.0",
+    "express-session": "^1.18.2",
+    "connect-flash": "^0.1.1",
+    "session-file-store": "^1.5.0",
+    "morgan": "^1.10.1"
   },
   "devDependencies": {
     "@eslint/js": "^9.9.0",
