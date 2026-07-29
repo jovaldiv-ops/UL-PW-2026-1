@@ -198,6 +198,16 @@ Local
 # Variables de entorno
 
     # .env
+    ###### application
     VITE_MINIFY=false
     PORT=4000
-    DB=postgres://root:123@127.0.0.1:5432/fifa25?sslmode=disable
+    SHOW_DB_ERRORS=true
+    ###### dbmate
+    #DB=postgres://root:123@127.0.0.1:5432/fifa25?sslmode=disable
+    ###### database
+    DB_NAME=tu_base_de_datos
+    DB_USER=postgres
+    DB_PASS=tu_contrasena
+    DB_HOST=localhost
+    DB_PORT=5432
+    DB_SSL=false
