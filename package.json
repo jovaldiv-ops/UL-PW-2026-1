@@ -10,7 +10,7 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "watch": "vite build --watch",
-    "dev-server": "nodemon --watch server.js server.js",
+    "dev-server": "nodemon --ignore 'public/* node_modules/* sessions/* src/*' server.js",
     "db:new": "npx dbmate -d \"db/migrations\" -e \"DB\" new ",
     "db:up": "npx dbmate -d \"db/migrations\" -e \"DB\" up",
     "db:rollback": "npx dbmate -d \"db/migrations\" -e \"DB\" rollback"
