@@ -16508,6 +16508,10 @@ INSERT INTO players_play_styles (id, play_style_id, player_id) VALUES (16505, 51
 INSERT INTO players_play_styles (id, play_style_id, player_id) VALUES (16506, 10, 17561);
 INSERT INTO players_play_styles (id, play_style_id, player_id) VALUES (16507, 5, 17647);
 
+SELECT setval(pg_get_serial_sequence('players_play_styles', 'id'), 16509, false);
+
 -- migrate:down 
 
 DELETE FROM players_play_styles;
+
+SELECT setval(pg_get_serial_sequence('players_play_styles', 'id'), 1, false);

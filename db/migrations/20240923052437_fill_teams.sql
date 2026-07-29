@@ -736,6 +736,10 @@ INSERT INTO teams (id, name, league_id) VALUES (733, 'Slavia Praha', 57);
 INSERT INTO teams (id, name, league_id) VALUES (734, 'Sparta Praha', 57);
 INSERT INTO teams (id, name, league_id) VALUES (735, 'Viktoria Plzeň', 57);
 
+SELECT setval(pg_get_serial_sequence('teams', 'id'), 736, false);
+
 -- migrate:down 
 
 DELETE FROM teams;
+
+SELECT setval(pg_get_serial_sequence('teams', 'id'), 1, false);

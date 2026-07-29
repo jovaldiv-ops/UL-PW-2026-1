@@ -1889,6 +1889,10 @@ INSERT INTO goalkeeper_details (id, diving, handling, kicking, positioning, refl
 INSERT INTO goalkeeper_details (id, diving, handling, kicking, positioning, reflexes, player_id) VALUES (16902, 73.0, 74.0, 73.0, 74.0, 72.0, 17642);
 INSERT INTO goalkeeper_details (id, diving, handling, kicking, positioning, reflexes, player_id) VALUES (16924, 70.0, 71.0, 79.0, 70.0, 76.0, 17686);
 
+SELECT setval(pg_get_serial_sequence('goalkeeper_details', 'id'), 16925, false);
+
 -- migrate:down 
 
 DELETE FROM goalkeeper_details;
+
+SELECT setval(pg_get_serial_sequence('goalkeeper_details', 'id'), 1, false);

@@ -58,6 +58,10 @@ INSERT INTO leagues (id, name, nation_id) VALUES (55, 'United Emirates League', 
 INSERT INTO leagues (id, name, nation_id) VALUES (56, 'Ö. Bundesliga', 55);
 INSERT INTO leagues (id, name, nation_id) VALUES (57, 'Česká Liga', 38);
 
+SELECT setval(pg_get_serial_sequence('leagues', 'id'), 58, false);
+
 -- migrate:down 
 
 DELETE FROM leagues;
+
+SELECT setval(pg_get_serial_sequence('leagues', 'id'), 1, false);

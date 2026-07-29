@@ -14140,6 +14140,10 @@ INSERT INTO players_positions (id, position_id, player_id) VALUES (14137, 12, 17
 INSERT INTO players_positions (id, position_id, player_id) VALUES (14138, 7, 17734);
 INSERT INTO players_positions (id, position_id, player_id) VALUES (14139, 8, 17737);
 
+SELECT setval(pg_get_serial_sequence('players_positions', 'id'), 14140, false);
+
 -- migrate:down 
 
 DELETE FROM players_positions;
+
+SELECT setval(pg_get_serial_sequence('players_positions', 'id'), 1, false);

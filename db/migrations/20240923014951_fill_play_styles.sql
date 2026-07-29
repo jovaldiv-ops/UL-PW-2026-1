@@ -69,6 +69,9 @@ INSERT INTO play_styles (id, name) VALUES (66, 'Long Throw+');
 INSERT INTO play_styles (id, name) VALUES (67, 'Flair+');
 INSERT INTO play_styles (id, name) VALUES (68, 'Cross Claimer+');
 
+SELECT setval(pg_get_serial_sequence('play_styles', 'id'), 69, false);
+
 -- migrate:down 
 
 DELETE FROM play_styles;
+SELECT setval(pg_get_serial_sequence('play_styles', 'id'), 1, false);

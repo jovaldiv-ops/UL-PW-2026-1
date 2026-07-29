@@ -155,6 +155,10 @@ INSERT INTO nations (id, name) VALUES (152, 'Wales');
 INSERT INTO nations (id, name) VALUES (153, 'Zambia');
 INSERT INTO nations (id, name) VALUES (154, 'Zimbabwe');
 
+SELECT setval(pg_get_serial_sequence('nations', 'id'), 155, false);
+
 -- migrate:down 
 
 DELETE FROM nations;
+
+SELECT setval(pg_get_serial_sequence('nations', 'id'), 1, false);

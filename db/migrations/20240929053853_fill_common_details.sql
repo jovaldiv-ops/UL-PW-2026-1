@@ -17738,6 +17738,10 @@ INSERT INTO common_details (id, overall, velocity, shooting, passing, dribbling,
 INSERT INTO common_details (id, overall, velocity, shooting, passing, dribbling, defending, physicality, player_id) VALUES (17736, 53, 61, 52, 48, 56, 53, 58, 17736);
 INSERT INTO common_details (id, overall, velocity, shooting, passing, dribbling, defending, physicality, player_id) VALUES (17737, 53, 60, 49, 53, 54, 27, 55, 17737);
 
+SELECT setval(pg_get_serial_sequence('common_details', 'id'), 17738, false);
+
 -- migrate:down 
 
 DELETE FROM common_details;
+
+SELECT setval(pg_get_serial_sequence('common_details', 'id'), 1, false);

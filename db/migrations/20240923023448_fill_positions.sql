@@ -13,6 +13,10 @@ INSERT INTO positions (id, name) VALUES (10, 'RM');
 INSERT INTO positions (id, name) VALUES (11, 'RW');
 INSERT INTO positions (id, name) VALUES (12, 'ST');
 
+SELECT setval(pg_get_serial_sequence('positions', 'id'), 13, false);
+
 -- migrate:down 
 
 DELETE FROM positions;
+
+SELECT setval(pg_get_serial_sequence('positions', 'id'), 13, false);
