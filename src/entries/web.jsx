@@ -1,6 +1,8 @@
 // src/entries/web.jsx
 import React from 'react'
 import ReactDOM from 'react-dom/client'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faGlobe, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons';
 import './web.css' 
 
 // 1. Recibimos los props mediante desestructuración ({ titulo, descripcion, color })
@@ -40,6 +42,14 @@ function HolaMundo() {
         descripcion="Puedes usar el mismo componente con distinta información." 
         color="#4b5563"
       />
+
+      <div className="p-4 flex gap-3 items-center">
+        <FontAwesomeIcon icon={faGlobe} className="text-blue-500 text-2xl" />
+        <button className="bg-blue-600 text-white px-3 py-1.5 rounded flex items-center gap-2">
+          <FontAwesomeIcon icon={faPlus} />
+          Crear Nación
+        </button>
+      </div>
     </div>
   )
 }

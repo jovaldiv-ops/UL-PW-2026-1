@@ -1,4 +1,6 @@
 /* src/entries/web.css */
+@import "tailwindcss";
+
 body{
   background-color: peru;
 }
