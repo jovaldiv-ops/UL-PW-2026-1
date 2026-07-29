@@ -37,3 +37,8 @@ fix: corregir validación de correo
 refactor: simplificar servicio de usuarios
 test: agregar pruebas para login
 docs: actualizar README
+
+# Variables de entorno
+
+    # .env
+    VITE_MINIFY=false

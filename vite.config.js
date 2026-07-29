@@ -1,30 +1,40 @@
-import { defineConfig } from 'vite'
+import { defineConfig, loadEnv } from 'vite'
 import react from '@vitejs/plugin-react'
 import { resolve } from 'path'
 
-export default defineConfig({
-  plugins: [react()],
-  build: {
-    emptyOutDir: false,
-    outDir: 'public/dist', // Todo el build sale hacia la carpeta public
-    rollupOptions: {
-      // Aquí defines cada sub-aplicación que tengas en src/entries
-      input: {
-        'web': resolve(__dirname, 'src/entries/web.jsx'),
-        //'sub-app-2': resolve(__dirname, 'src/entries/sub-app-2.jsx'),
-        // Puedes agregar todas las sub-aplicaciones que necesites aquí
-      },
-      output: {
-        // Genera una carpeta o nombres limpios por cada sub-app
-        entryFileNames: 'js/[name].js',
-        chunkFileNames: 'js/[name].js',
-        assetFileNames: (assetInfo) => {
-          if (assetInfo.name && assetInfo.name.endsWith('.css')) {
-            return 'css/[name][extname]'; // Exporta el CSS limpio a public/css/
-          }
-          return 'assets/[name]-[hash][extname]';
+export default defineConfig(({ mode }) => {
+  // Carga las variables de entorno según el modo actual
+  const env = loadEnv(mode, process.cwd(), '')
+  
+  // Evaluamos si VITE_MINIFY es 'true' (convirtiéndolo a booleano o string para terser/esbuild)
+  const shouldMinify = env.VITE_MINIFY === 'true'
+  
+  // Definimos el sufijo dinámico: si minifica será '.min', de lo contrario vacío
+  const minSuffix = shouldMinify ? '.min' : ''
+
+  return {
+    plugins: [react()],
+    build: {
+      emptyOutDir: false,
+      outDir: 'public/dist',
+      minify: shouldMinify, // Aplica true o false según el .env
+      rollupOptions: {
+        input: {
+          'web': resolve(__dirname, 'src/entries/web.jsx'),
+        },
+        output: {
+          // Si shouldMinify es true -> js/web.min.js | si es false -> js/web.js
+          entryFileNames: `js/[name]${minSuffix}.js`,
+          chunkFileNames: `js/[name]${minSuffix}.js`,
+          assetFileNames: (assetInfo) => {
+            if (assetInfo.name && assetInfo.name.endsWith('.css')) {
+              // Si shouldMinify es true -> css/web.min.css | si es false -> css/web.css
+              return `css/[name]${minSuffix}[extname]`;
+            }
+            return `assets/[name]-[hash][extname]`;
+          },
         },
       },
     },
-  },
+  }
 })
