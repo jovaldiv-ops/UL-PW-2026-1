@@ -9,6 +9,9 @@ import { redirectIfAuthenticated } from '../configs/middlewares.js';
 const router = Router();
 
 router.get('/', controller.home);
+router.get('/about', controller.about);
+router.get('/contact', controller.contact);
+router.get('/players', controller.players);
 router.get('/api/v1/test', api.test);
 router.get('/api/v1/nations', api.listNations);
 router.get('/api/v1/nations/:id', api.getNationById);

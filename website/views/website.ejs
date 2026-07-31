@@ -1,0 +1,61 @@
+<!-- webiste/views/index.ejs -->
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/favicon" href="/favicon.ico" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <link rel="stylesheet" href="/dist/css/web.css">
+
+  <title><%= title %></title>
+</head>
+
+<body class="flex min-h-screen flex-col font-sans">
+
+  <!-- Navbar -->
+  <%- include("_navbar") %>
+
+
+  <!-- Menu mobile -->
+  <%- include("_mobile_menu") %>
+
+
+  <!-- Cuerpo -->
+  <div class="flex flex-1">
+
+    <!-- Sidebar -->
+    <%- include("_sidebar") %>
+
+
+    <!-- Contenido dinámico -->
+    <main class="flex w-full flex-col bg-gray-100 md:w-4/5">
+
+      <div class="flex-1 p-8">
+        <%- body %>
+      </div>
+
+
+      <!-- Footer dentro del contenido -->
+      <%- include("_footer") %>
+
+    </main>
+
+  </div>
+
+
+  <script type="module" src="/dist/js/web.js"></script>
+
+  <script>
+    const button = document.getElementById("menuButton");
+    const menu = document.getElementById("mobileMenu");
+
+    button?.addEventListener("click", () => {
+      menu.classList.toggle("-translate-x-full");
+    });
+  </script>
+
+</body>
+
+</html>
