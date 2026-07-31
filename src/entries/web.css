@@ -1,12 +1,10 @@
 /* src/entries/web.css */
 @import "tailwindcss";
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap");
 @import "@fortawesome/fontawesome-free/css/all.min.css";
-
+ 
 @theme {
-  /* Define tus variables de color principal y secundario */
-  --color-primary: #f59e0b;        /* Equivalente a amber-500 */
-  --color-primary-hover: #d97706;  /* Equivalente a amber-600 */
-  
-  --color-secondary: #3b82f6;      /* Equivalente a blue-500 */
-  --color-secondary-hover: #2563eb;/* Equivalente a blue-600 */
+  --font-sans: "Inter", sans-serif;
+  --color-primary: #ff501c;
+  --color-secondary: #222222;
 }

@@ -9,7 +9,8 @@
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "watch": "chokidar \"src/**/*\" -c \"vite build\"", 
+    "watch2": "chokidar \"src/**/*\" -c \"vite build\"",
+    "watch": "chokidar \"src/**/*\" \"**/views/**/*\" --debounce 500 -c \"vite build\"",
     "dev-server": "nodemon server.js",
     "db:new": "npx dbmate -d \"db/migrations\" -e \"DB\" new ",
     "db:up": "npx dbmate -d \"db/migrations\" -e \"DB\" up",
@@ -38,6 +39,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.9.0",
+    "@tailwindcss/cli": "^4.3.3",
     "@tailwindcss/vite": "^4.3.3",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
