@@ -26,7 +26,7 @@ function HolaMundo() {
       
       {/* Llamamos al componente enviándole diferentes props */}
       <MiTarjeta 
-        titulo="Primer Componente con Props 🧩🧩🧩🧩🧩" 
+        titulo="Primer Componente con Props 🧩" 
         descripcion="Este texto viene desde un prop dinámico." 
         color="#4f46e5"
       />

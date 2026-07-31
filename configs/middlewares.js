@@ -101,7 +101,7 @@ export function requireAuth(req, res, next) {
 }
 
 // configs/middlewares.js
-/**
+/** 
  * Middleware para redirigir a usuarios autenticados
  * Si el usuario ya tiene sesión activa, lo redirige a la página principal
  */

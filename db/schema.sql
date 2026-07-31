@@ -20,7 +20,7 @@ SET default_table_access_method = heap;
 
 --
 -- Name: common_details; Type: TABLE; Schema: public; Owner: -
---
+-- 
 
 CREATE TABLE public.common_details (
     id integer NOT NULL,

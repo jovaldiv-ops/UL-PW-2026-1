@@ -10,8 +10,8 @@ export default defineConfig(({ mode }) => {
   const minSuffix = shouldMinify ? '.min' : ''
 
   return {
-    // 1. Especificamos la base URL para los assets compilados
     base: '/dist/', 
+    publicDir: false, // 1. Elimina la advertencia (!) de carpetas solapadas
     plugins: [
       react(),
       tailwindcss()
@@ -31,7 +31,6 @@ export default defineConfig(({ mode }) => {
             if (assetInfo.name && assetInfo.name.endsWith('.css')) {
               return `css/[name]${minSuffix}[extname]`;
             }
-            // Guarda las fuentes e imágenes dentro de public/dist/assets/
             return `assets/[name]-[hash][extname]`;
           },
         },

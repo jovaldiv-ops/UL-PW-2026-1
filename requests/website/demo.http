@@ -9,9 +9,9 @@ Authorization: Bearer {{token}}
 GET {{baseUrl}}/v1/nations/156
 
 ### Crear un nuevo nación
-POST {{baseUrl}}/v1/nations
+POST {{baseUrl}}/v1/nations 
 Content-Type: application/json
-
+ 
 {
   "name": "Arequipa"
 }

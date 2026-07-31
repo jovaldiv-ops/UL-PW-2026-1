@@ -5,15 +5,17 @@
   "type": "module",
   "scripts": {
     "dev-old": "vite",
-    "dev": "concurrently --names \"REACT,EXPRESS\" --prefix-colors \"cyan,green\" \"npm run watch\" \"npm run dev-server\"",
+    "dev": "concurrently --names \"REACT,EXPRESS\" --prefix-colors \"cyan,green\" \"vite build & npm run watch\" \"npm run dev-server\"",
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "watch": "vite build --watch",
-    "dev-server": "nodemon --ignore 'public/* node_modules/* sessions/* src/*' server.js",
+    "watch": "chokidar \"src/**/*\" -c \"vite build\"", 
+    "dev-server": "nodemon server.js",
     "db:new": "npx dbmate -d \"db/migrations\" -e \"DB\" new ",
     "db:up": "npx dbmate -d \"db/migrations\" -e \"DB\" up",
-    "db:rollback": "npx dbmate -d \"db/migrations\" -e \"DB\" rollback"
+    "db:rollback": "npx dbmate -d \"db/migrations\" -e \"DB\" rollback",
+    "db:dump": "npx dbmate -d \"db/migrations\" -s \"db/schema.sql\" -e \"DB\" dump",
+    "db:dumpdata": "node -e \"const { execSync } = require('child_process'); require('dotenv').config(); execSync('pg_dump --dbname=' + process.env.DB + ' --file=db/dump_complete.sql --clean --if-exists --inserts', { stdio: 'inherit' });\""
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^7.3.1",
@@ -41,6 +43,7 @@
     "@types/react-dom": "^18.3.0",
     "@vitejs/plugin-react": "^4.2.1",
     "autoprefixer": "^10.5.4",
+    "chokidar-cli": "^3.0.0",
     "concurrently": "^10.0.4",
     "dbmate": "^2.26.0",
     "eslint": "^9.9.0",

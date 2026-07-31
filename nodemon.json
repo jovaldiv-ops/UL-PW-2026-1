@@ -1,0 +1,14 @@
+{
+  "watch": [
+    "."
+  ],
+  "ignore": [
+    "public/**",
+    "dist/**",
+    "**/views/**",
+    "node_modules/**",
+    "sessions/**",
+    "src/**"
+  ],
+  "ext": "js,json"
+}
