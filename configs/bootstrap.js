@@ -1,4 +1,3 @@
-// configs/bootstrap.js
 import path from 'path';
 import morgan from 'morgan';
 import express from 'express';
@@ -8,11 +7,12 @@ import engine from 'ejs-mate';
 import dotenv from 'dotenv';
 import flash from 'connect-flash';
 import FileStore from 'session-file-store';
+import fs from 'fs';
 
 import websiteRoutes from '../website/routes.js';
-//import managementRoutes from '../management/configs/routes.js';
 
-import { notFoundHandler, errorHandler, viewFlash, viewEnv, viewSession, viewHelpers, } from './middlewares.js';
+import { notFoundHandler, viewFlash, viewEnv, viewSession, viewHelpers } from './middlewares.js';
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const FileStoreSession = FileStore(session);
@@ -20,31 +20,40 @@ const FileStoreSession = FileStore(session);
 dotenv.config();
 
 export default function bootstrap(app) {
-  // Logs
-  app.use(morgan('dev'));
+  // Logs - solo en desarrollo
+  if (process.env.NODE_ENV !== 'production') {
+    app.use(morgan('dev'));
+  }
 
   // Body parsers
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
 
-  // CORS middleware (allow requests from the frontend)
-  // puedes restringir origin a process.env.CORS_ORIGIN o a 'http://localhost:3000'
+  // CORS middleware
   app.use((req, res, next) => {
     const origin = process.env.CORS_ORIGIN || '*';
     res.header('Access-Control-Allow-Origin', origin);
     res.header('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE,OPTIONS');
     res.header('Access-Control-Allow-Headers', 'Content-Type,Authorization');
-    // si el navegador hace preflight OPTIONS, le respondemos de una vez
     if (req.method === 'OPTIONS') {
       return res.sendStatus(200);
     }
     next();
   });
 
-  // Configuración de sesiones (ESTO ES IMPORTANTE)
+  // Configuración de sesiones - Adaptada para Vercel
+  const sessionPath = process.env.VERCEL 
+    ? '/tmp/sessions' 
+    : path.join(__dirname, '../../sessions');
+
+  // Crear directorio de sesiones sincrónicamente (sin await)
+  if (!process.env.VERCEL && !fs.existsSync(sessionPath)) {
+    fs.mkdirSync(sessionPath, { recursive: true });
+  }
+
   app.use(session({
     store: new FileStoreSession({
-      path: path.join(__dirname, '../../sessions'),
+      path: sessionPath,
       retries: 0,
       ttl: 60 * 60 * 24 // 1 día
     }),
@@ -52,21 +61,18 @@ export default function bootstrap(app) {
     resave: false,
     saveUninitialized: false,
     cookie: {
-      //secure: process.env.NODE_ENV === 'production',
-      secure: false,
+      secure: process.env.NODE_ENV === 'production',
       maxAge: 1000 * 60 * 60 * 24,
-      httpOnly: true
+      httpOnly: true,
+      sameSite: 'lax'
     }
   }));
   app.use(flash());
 
-  // Middleware para pasar flash messages a las vistas
+  // Middlewares
   app.use(viewFlash);
-  // Middleware para pasar .env a las vistas
   app.use(viewEnv);
-  // Middleware para pasar session a las vistas
   app.use(viewSession);
-  // Middleware para pasar helpers a las vistas
   app.use(viewHelpers);
 
   // Vistas
@@ -76,7 +82,11 @@ export default function bootstrap(app) {
     path.join(__dirname, '../website/views'),
   ]);
 
-  // Archivos estáticos
+  // Archivos estáticos - Orden importante para Vercel
+  // Primero servir los archivos de React (public/dist)
+  app.use('/dist', express.static(path.join(__dirname, '../public/dist')));
+  
+  // Luego el resto de archivos estáticos (public/)
   app.use(express.static(path.join(__dirname, '../public')));
 
   // Variables globales
@@ -85,11 +95,18 @@ export default function bootstrap(app) {
 
   // Rutas Web
   app.use('/', websiteRoutes);
-  //app.use('/', managementRoutes);
 
-  // Middleware 404 - Solo se ejecuta si no coincidió ninguna ruta anterior
+  // Para SPA de React - Redirigir todas las rutas no encontradas al index.html
+  // Esto permite que React Router maneje las rutas en el frontend
+  app.get('*', (req, res, next) => {
+    // Verificar si es una ruta de API o archivo estático
+    if (req.path.startsWith('/api/') || req.path.includes('.')) {
+      return next();
+    }
+    // Servir el index.html de React
+    res.sendFile(path.join(__dirname, '../public/dist/index.html'));
+  });
+
+  // Middleware 404
   app.use(notFoundHandler);
-
-  // Middleware de manejo de errores global
-  //app.use(errorHandler);
 }
